@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] GameObject _player;
     private void LateUpdate()
     {
-        transform.position = new Vector3(_player.transform.position.x, _player.transform.position.y, -10);
+        transform.position = new Vector3(Managers.Game.Player.transform.position.x, Managers.Game.Player.transform.position.y, -10);
     }
 }

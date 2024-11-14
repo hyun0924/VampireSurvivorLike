@@ -1,59 +1,131 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
+using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : CreatureController
 {
-    SpriteRenderer _sr;
-    GameObject _target = null;
-    [SerializeField] float _speed = 3f;
-    [SerializeField] float _detectDistance = 15f;
-    [SerializeField] float _hitDuration = 0.2f;
-    bool _isAttacked = false;
+    BoxCollider2D _collider;
+    EnemyStat _stat;
 
-    private void Start()
+    GameObject _target = null;
+    Sprite _hitSprite = null;
+    Sprite _deadSprite = null;
+
+    Define.State _state = Define.State.Run;
+    Define.State State
     {
-        _sr = GetComponent<SpriteRenderer>();
+        get { return _state; }
+        set
+        {
+            _state = value;
+
+            switch (value)
+            {
+                case Define.State.Run:
+                    {
+                        _anim.enabled = true;
+                        gameObject.layer = (int)Define.Layer.Enemy;
+                        _anim.Play("RUN");
+                        _sr.color = _originColor;
+                        _sr.sortingOrder = 2;
+                        _collider.enabled = true;
+                    }
+                    break;
+                case Define.State.Hit:
+                    {
+                        _anim.enabled = false;
+                        _sr.sprite = _hitSprite;
+                        _sr.color = new Color32(255, 134, 134, 255);
+                        Vector3 dir = transform.position - _target.transform.position;
+                        transform.position += dir.normalized * 0.5f;
+                    }
+                    break;
+                case Define.State.Dead:
+                    {
+                        _anim.enabled = false;
+                        gameObject.layer = (int)Define.Layer.Dead;
+                        _sr.sprite = _deadSprite;
+                        _sr.color = _originColor;
+                        _sr.sortingOrder = 1;
+                        _collider.enabled = false;
+                    }
+                    break;
+            }
+        }
+    }
+
+    protected override void Init()
+    {
+        base.Init();
+
+        _collider = GetComponent<BoxCollider2D>();
+        _stat = gameObject.GetOrAddComponent<EnemyStat>();
+
+        string imageName = Enum.GetName(typeof(Define.EnemyType), _stat.Type);
+        _hitSprite = Managers.Resource.LoadSubSprite(imageName, "Hit");
+        _deadSprite = Managers.Resource.LoadSubSprite(imageName, "Dead");
+
+        _target = Managers.Game.Player.gameObject;
+    }
+
+    private void OnEnable()
+    {
+        State = Define.State.Run;
+        _stat.HP = _stat.MaxHp;
     }
 
     private void Update()
     {
+        if (State != Define.State.Run) return;
+
         if (_target == null)
-            _target = Physics2D.OverlapCircle(transform.position, _detectDistance, LayerMask.GetMask("Player"))?.gameObject;
+            _target = Physics2D.OverlapCircle(transform.position, _stat.DetectDistance, (1 << (int)Define.Layer.Player))?.gameObject;
         else
         {
             Vector3 dest = _target.transform.position;
             Vector3 dir = dest - transform.position;
 
-            if (dir.magnitude > _detectDistance + 1f)
-                transform.position += dir * 2;
+            if (dir.magnitude > _stat.DetectDistance + 1f)
+                transform.position = _target.transform.position + new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(1.0f, 1.0f)) * 15f;
 
             _sr.flipX = (dir.x < 0);
-            transform.position += dir.normalized * _speed * Time.deltaTime;
+            transform.position += dir.normalized * _stat.Speed * Time.deltaTime;
         }
     }
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (other.gameObject.layer == (int)Define.Layer.Bullet && !_isAttacked)
+        if (other.gameObject.layer == (int)Define.Layer.Bullet && State != Define.State.Hit)
         {
             WeaponController controller = other.GetComponent<WeaponController>();
             StartCoroutine(OnHit(controller.Damage));
 
             if (controller.Type == WeaponController.BulletType.Bullet)
-                Destroy(other.gameObject);
+                Managers.Resource.Destroy(other.gameObject);
         }
     }
 
     IEnumerator OnHit(int damage)
     {
-        _isAttacked = true;
-        Color originColor = _sr.color;
-        _sr.color = new Color32(255, 134, 134, 255);
-        Vector3 dir = transform.position - _target.transform.position;
-        transform.position += dir.normalized * 0.5f;
-        yield return new WaitForSeconds(_hitDuration);
-        _sr.color = originColor;
-        _isAttacked = false;
+        State = Define.State.Hit;
+        _stat.HP = Math.Max(0, _stat.HP - damage);
+
+        if (_stat.HP <= 0)
+        {
+            State = Define.State.Dead;
+            Managers.Game.Player.KillCount++;
+            yield return new WaitForSeconds(_stat.DeadDuration);
+            Managers.Resource.Instantiate("Exp 0").transform.position = transform.position;
+            Managers.Resource.Destroy(gameObject);
+            yield break;
+        }
+
+        yield return new WaitForSeconds(_stat.HitDuration);
+
+        State = Define.State.Run;
     }
 }

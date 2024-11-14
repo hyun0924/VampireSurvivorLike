@@ -12,7 +12,7 @@ public class InputManager
     {
         if (!Input.anyKey)
         {
-            if (NoInputAction != null) NoInputAction.Invoke();
+            if (NoInputAction != null && !Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) NoInputAction.Invoke();
             return;
         }
 

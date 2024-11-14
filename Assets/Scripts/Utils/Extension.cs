@@ -8,4 +8,8 @@ public static class Extension
     {
         return Util.GetOrAddComponent<T>(go);
     }
+    public static T FindChild<T>(this GameObject parent, string name) where T : Object
+    {
+        return Util.FindChild<T>(parent, name);
+    }
 }

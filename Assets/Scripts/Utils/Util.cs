@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using UnityEngine;
 
 public class Util
@@ -24,5 +25,19 @@ public class Util
             component = go.AddComponent<T>();
         }
         return component;
+    }
+
+    public static T FindChild<T>(GameObject parent, string name) where T : Object
+    {
+        T[] components = parent.GetComponentsInChildren<T>();
+        foreach (T component in components)
+        {
+            if (component.name == name)
+            {
+                return component;
+            }
+        }
+
+        return null;
     }
 }

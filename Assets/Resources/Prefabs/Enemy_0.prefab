@@ -96,10 +96,12 @@ GameObject:
   - component: {fileID: 2663896059645745092}
   - component: {fileID: 7214966407373584452}
   - component: {fileID: 8468658449764110334}
+  - component: {fileID: 3322345695497962533}
   - component: {fileID: 2551141229043156544}
   - component: {fileID: -5573938251112484910}
+  - component: {fileID: 1841265628676759520}
   m_Layer: 8
-  m_Name: Enemy0
+  m_Name: Enemy_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -206,9 +208,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17c6c0eda0e8c2c4c9b30718782407b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 3
-  _detectDistance: 15
-  _hitDuration: 0.2
+--- !u!114 &3322345695497962533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7536251502338405903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3f01a2c0add82340a1a5556d830f4e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 0
+  _maxHp: 0
+  _hp: 0
+  _damage: 0
+  _hitDuration: 0
+  _type: 0
+  _detectDistance: 0
+  _deadDuration: 0
 --- !u!61 &2551141229043156544
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -281,3 +300,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &1841265628676759520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7536251502338405903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85f0a74549134c243827e10ca57e3287, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

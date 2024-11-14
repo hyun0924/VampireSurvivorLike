@@ -1,0 +1,31 @@
+{
+  "expStats": [
+    {
+      "level": "1",
+      "totalExp": "0"
+    },
+    {
+      "level": "2",
+      "totalExp": "5"
+    },
+    {
+      "level": "3",
+      "totalExp": "10"
+    }
+  ],
+
+  "hi": [
+    {
+      "level": "1",
+      "totalExp": "0"
+    },
+    {
+      "level": "2",
+      "totalExp": "5"
+    },
+    {
+      "level": "3",
+      "totalExp": "10"
+    }
+  ]
+} 

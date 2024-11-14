@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class GameManagerEx
 {
-    public GameObject Player = null;
+    public PlayerController Player = null;
 }
