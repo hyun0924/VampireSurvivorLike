@@ -6,7 +6,7 @@ using UnityEngine.Playables;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
-public class EnemyController : CreatureController
+public class EnemyController : CreatureController, IPoolable
 {
     BoxCollider2D _collider;
     EnemyStat _stat;
@@ -72,8 +72,9 @@ public class EnemyController : CreatureController
         _target = Managers.Game.Player.gameObject;
     }
 
-    private void OnEnable()
+    public void Respawn(Vector3 position)
     {
+        transform.position = position;
         State = Define.State.Run;
         _stat.HP = _stat.MaxHp;
     }
@@ -123,7 +124,7 @@ public class EnemyController : CreatureController
             Managers.Game.Player.KillCount++;
             yield return new WaitForSeconds(_stat.DeadDuration);
 
-            GameObject exp = Managers.Resource.Instantiate("Exp 0", Managers.Game.Exps.transform);
+            GameObject exp = Managers.Resource.Instantiate("Exp 0", Managers.Game.Props.transform);
             exp.GetOrAddComponent<PropController>().Init(transform.position, Define.Prop.Exp);
             
             Managers.Resource.Destroy(gameObject);

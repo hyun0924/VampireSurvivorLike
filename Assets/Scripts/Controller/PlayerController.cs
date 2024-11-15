@@ -53,6 +53,7 @@ public class PlayerController : CreatureController
     }
 
     public void GetExp(int exp) { _stat.Exp += exp; }
+    public void RecoverHp(int hp) { _stat.HP = Math.Min(_stat.HP + hp, _stat.MaxHp); }
 
     protected override void Init()
     {

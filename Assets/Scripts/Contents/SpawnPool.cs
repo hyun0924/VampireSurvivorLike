@@ -6,38 +6,58 @@ using Random = UnityEngine.Random;
 
 public class SpawnPool : MonoBehaviour
 {
-    [SerializeField] int _currentCount = 0;
-    [SerializeField] int _reservedCount = 0;
-    [SerializeField] int _maxCount = 5;
+    List<SpawnTarget> _spawnTargets = new List<SpawnTarget>();
+    GameObject _root { get { return Util.GetOrCreateGameObject("@Live_Pool"); } }
 
-    GameObject _root;
-
-    public void Init(int count)
+    class SpawnTarget
     {
-        _maxCount = count;
-        _root = Util.GetOrCreateGameObject("@Enemy0_LivePool");
+        public string Name;
+        public Transform Pool;
+        public int CurrentCount = 0;
+        public int ReservedCount = 0;
+        public int MaxCount = 5;
+    }
+
+    public void AddSpawnTarget(string prefabName, int count)
+    {
+        SpawnTarget target = new SpawnTarget();
+        target.Name = prefabName;
+        target.MaxCount = count;
+        target.Pool = new GameObject { name = $"{prefabName}_Live_Pool" }.transform;
+        target.Pool.parent = _root.transform;
+
+        _spawnTargets.Add(target);
     }
 
     private void Update()
     {
-        _currentCount = _root.transform.childCount;
-        if (_reservedCount + _currentCount < _maxCount)
+        foreach (SpawnTarget target in _spawnTargets)
         {
-            StartCoroutine("ReserveSpawn");
-            _reservedCount++;
+            target.CurrentCount = target.Pool.childCount;
+            if (target.ReservedCount + target.CurrentCount < target.MaxCount)
+            {
+                StartCoroutine(ReserveSpawn(target));
+                target.ReservedCount++;
+            }
         }
     }
 
-    IEnumerator ReserveSpawn()
+    IEnumerator ReserveSpawn(SpawnTarget target)
     {
         yield return new WaitForSeconds(Random.Range(0, 5.0f));
-        GameObject go = Managers.Resource.Instantiate("Enemy_0", _root.transform);
+        GameObject go = Managers.Resource.Instantiate(target.Name, target.Pool);
 
         float degree = Random.Range(0, 360.0f);
         float distance = Random.Range(10f, 15f);
-        go.transform.position = Managers.Game.Player.transform.position + new Vector3(Mathf.Cos(degree * Mathf.Deg2Rad), Mathf.Sin(degree * Mathf.Deg2Rad)) * distance;
+        Vector3 randPos = Managers.Game.Player.transform.position + new Vector3(Mathf.Cos(degree * Mathf.Deg2Rad), Mathf.Sin(degree * Mathf.Deg2Rad)) * distance;
+        
+        IPoolable poolable = go.GetComponent<IPoolable>();
+        if (poolable != null)
+            poolable.Respawn(randPos);
+        else
+            go.transform.position = randPos;
 
-        _currentCount++;
-        _reservedCount--;
+        target.CurrentCount++;
+        target.ReservedCount--;
     }
 }

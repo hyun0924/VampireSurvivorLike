@@ -25,7 +25,7 @@ public class EnemyStat : BaseStat
         _speed = enemyStat.speed;
         _maxHp = enemyStat.maxHp;
         _hp = _maxHp;
-        _damage = enemyStat.maxHp;
+        _damage = enemyStat.damage;
         _detectDistance = 15f;
         _hitDuration = 0.15f;
         _deadDuration = 1f;

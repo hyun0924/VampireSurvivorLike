@@ -12,6 +12,11 @@ public class BulletController : WeaponController
         _parent = parent;
         Type = BulletType.Bullet;
 
+        if (target == null)
+        {
+            Managers.Resource.Destroy(gameObject);
+            return;
+        }
         _direction = target.transform.position - parent.transform.position;
 
         transform.position = parent.position;

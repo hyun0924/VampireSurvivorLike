@@ -21,7 +21,6 @@ public class Define
         Enemy_2,
         Enemy_3,
         Enemy_4,
-        Box,
     }
 
     public enum State
@@ -43,10 +42,13 @@ public class Define
         Drag,
     }
 
+    // 박스에서 나오는 것만 Box 밑에 두기
     public enum Prop
     {
         Exp,
+        Box,
         Magnet,
         Heal,
+        BoxEnd,
     }
 }

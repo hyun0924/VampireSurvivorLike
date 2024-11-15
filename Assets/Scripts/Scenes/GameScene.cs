@@ -12,6 +12,8 @@ public class GameScene : MonoBehaviour
 
         Managers.Game.Player = Managers.Resource.Instantiate("Player").GetOrAddComponent<PlayerController>();
 
-        gameObject.GetOrAddComponent<SpawnPool>().Init(10);
+        SpawnPool spawnPool = gameObject.GetOrAddComponent<SpawnPool>();
+        spawnPool.AddSpawnTarget(Enum.GetName(typeof(Define.EnemyType), Define.EnemyType.Enemy_0), 10);
+        spawnPool.AddSpawnTarget(Enum.GetName(typeof(Define.Prop), Define.Prop.Box), 2);
     }
 }
