@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3330433333379574913}
   - component: {fileID: 2725721471165364248}
+  - component: {fileID: -3169740312190059349}
   m_Layer: 10
   m_Name: Exp 0
   m_TagString: Untagged
@@ -68,6 +69,18 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.5555556, y: 0.6111111}
   m_Direction: 0
+--- !u!114 &-3169740312190059349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2801036407953040526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1577fa77eaac5da4e9000c95e4ff2f0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8360993376367391606
 GameObject:
   m_ObjectHideFlags: 0

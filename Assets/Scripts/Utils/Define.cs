@@ -20,7 +20,8 @@ public class Define
         Enemy_1,
         Enemy_2,
         Enemy_3,
-        Enemy_4
+        Enemy_4,
+        Box,
     }
 
     public enum State
@@ -40,5 +41,12 @@ public class Define
     {
         Click,
         Drag,
+    }
+
+    public enum Prop
+    {
+        Exp,
+        Magnet,
+        Heal,
     }
 }

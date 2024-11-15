@@ -6,6 +6,7 @@ using static DataManager;
 
 namespace Stat
 {
+    #region PlayerStat
     [Serializable]
     public class ExpStats
     {
@@ -26,4 +27,29 @@ namespace Stat
             return dict;
         }
     }
+    #endregion
+
+    #region EnemyStat
+    [Serializable]
+    public class EnemyStat
+    {
+        public string name;
+        public int maxHp;
+        public int damage;
+        public int speed;
+    }
+
+    [Serializable]
+    public class EnemyStatData : ILoader<string, EnemyStat>
+    {
+        public List<EnemyStat> enemyStats = new List<EnemyStat>();
+        public Dictionary<string, EnemyStat> MakeDict()
+        {
+            Dictionary<string, EnemyStat> dict = new Dictionary<string, EnemyStat>();
+            foreach (EnemyStat enemyStat in enemyStats)
+                dict.Add(enemyStat.name, enemyStat);
+            return dict;
+        }
+    }
+    #endregion
 }

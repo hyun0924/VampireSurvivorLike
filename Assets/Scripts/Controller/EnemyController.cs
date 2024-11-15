@@ -89,8 +89,11 @@ public class EnemyController : CreatureController
             Vector3 dest = _target.transform.position;
             Vector3 dir = dest - transform.position;
 
-            if (dir.magnitude > _stat.DetectDistance + 1f)
-                transform.position = _target.transform.position + new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(1.0f, 1.0f)) * 15f;
+            if (dir.magnitude > _stat.DetectDistance)
+            {
+                float degree = Random.Range(0, 360.0f);
+                transform.position = _target.transform.position + new Vector3(Mathf.Cos(degree * Mathf.Deg2Rad), Mathf.Sin(degree * Mathf.Deg2Rad)) * 10f;
+            }
 
             _sr.flipX = (dir.x < 0);
             transform.position += dir.normalized * _stat.Speed * Time.deltaTime;
@@ -119,7 +122,10 @@ public class EnemyController : CreatureController
             State = Define.State.Dead;
             Managers.Game.Player.KillCount++;
             yield return new WaitForSeconds(_stat.DeadDuration);
-            Managers.Resource.Instantiate("Exp 0").transform.position = transform.position;
+
+            GameObject exp = Managers.Resource.Instantiate("Exp 0", Managers.Game.Exps.transform);
+            exp.GetOrAddComponent<PropController>().Init(transform.position, Define.Prop.Exp);
+            
             Managers.Resource.Destroy(gameObject);
             yield break;
         }

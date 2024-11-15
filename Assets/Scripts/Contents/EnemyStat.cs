@@ -15,17 +15,26 @@ public class EnemyStat : BaseStat
 
     private void Start()
     {
-        if (!Enum.TryParse(name, out _type))
-        {
-            Debug.Log($"Incorrect name: {name}");
-            _type = Define.EnemyType.Enemy_0;
-        }
-        _speed = 3f;
-        _maxHp = 20;
-        _hp = 20;
-        _damage = 2;
-        _detectDistance = 20f;
+        Stat.EnemyStat enemyStat = null;
+        if (Managers.Data.EnemyStatDict.ContainsKey(name))
+            enemyStat = Managers.Data.EnemyStatDict[name];
+        else
+            enemyStat = Managers.Data.EnemyStatDict["Enemy_0"];
+
+        _type = GetType(enemyStat.name);
+        _speed = enemyStat.speed;
+        _maxHp = enemyStat.maxHp;
+        _hp = _maxHp;
+        _damage = enemyStat.maxHp;
+        _detectDistance = 15f;
         _hitDuration = 0.15f;
         _deadDuration = 1f;
+    }
+
+    private Define.EnemyType GetType(string name)
+    {
+        Define.EnemyType type = Define.EnemyType.Enemy_0;
+        Enum.TryParse(name, out type);
+        return type;
     }
 }

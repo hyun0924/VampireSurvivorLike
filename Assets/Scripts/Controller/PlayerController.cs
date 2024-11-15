@@ -52,6 +52,8 @@ public class PlayerController : CreatureController
         }
     }
 
+    public void GetExp(int exp) { _stat.Exp += exp; }
+
     protected override void Init()
     {
         base.Init();
@@ -72,7 +74,7 @@ public class PlayerController : CreatureController
     {
         Managers.TileMap.UpdateTileMap(transform.position, _moveVec);
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Space))
             ShovelLevelUp();
     }
 
@@ -165,29 +167,6 @@ public class PlayerController : CreatureController
         {
             int damage = other.gameObject.GetComponent<EnemyStat>().Damage;
             StartCoroutine(OnHit(damage));
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-       if (other.gameObject.layer == (int)Define.Layer.Exp)
-        {
-            int exp = 0;
-            switch (other.gameObject.name)
-            {
-                case "Exp 0":
-                    exp = 1;
-                    break;
-                case "Exp 1":
-                    exp = 5;
-                    break;
-                case "Exp 2":
-                    exp = 10;
-                    break;
-            }
-            _stat.Exp += exp;
-
-            Managers.Resource.Destroy(other.gameObject);
         }
     }
 

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GameScene : MonoBehaviour
 {
-    private void Start()
+    private void Awake()
     {
         Managers.Resource.Instantiate("@EventSystem");
         Managers.UI.ShowSceneUI<UI_Game>();

@@ -86,6 +86,10 @@ public class TileMapManager
                     GameObject tilemap = _unusedTilemaps.Pop();
                     tilemap.transform.position = new Vector3(startX + width, startY, 0);
                     tilemap.SetActive(true);
+
+                    tilemap = _unusedTilemaps.Pop();
+                    tilemap.transform.position = new Vector3(startX, startY, 0);
+                    tilemap.SetActive(true);
                 }
                 else // ¼¼·Î
                 {
@@ -96,11 +100,15 @@ public class TileMapManager
                     GameObject tilemap = _unusedTilemaps.Pop();
                     tilemap.transform.position = new Vector3(startX, startY + height, 0);
                     tilemap.SetActive(true);
-                }
 
-                GameObject go = _unusedTilemaps.Pop();
-                go.transform.position = new Vector3(startX, startY, 0);
-                go.SetActive(true);
+                    tilemap = _unusedTilemaps.Pop();
+                    tilemap.transform.position = new Vector3(startX, startY, 0);
+                    tilemap.SetActive(true);
+                }
+            }
+            else if (hitColliders.Length == 1 || hitColliders.Length == 3)
+            {
+                Debug.Log("Tilemap error");
             }
         }
 

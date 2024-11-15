@@ -1,0 +1,16 @@
+{
+  "enemyStats": [
+    {
+      "name": "Enemy_0",
+      "maxHp": "20",
+      "damage": "2",
+      "speed": "3"
+    },
+    {
+      "name": "Box",
+      "maxHp": "1",
+      "damage": "0",
+      "speed": "0"
+    }
+  ]
+} 
