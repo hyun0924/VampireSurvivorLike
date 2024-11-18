@@ -1,0 +1,54 @@
+{
+    "weaponSelections": [
+        {
+            "name": "Shovel",
+            "imageName": "Select 0",
+            "descriptions": [
+                {
+                    "level": "1",
+                    "description": "+1 shovel"
+                },
+                {
+                    "level": "2",
+                    "description": "+2 shovel"
+                }
+            ]
+        },
+        {
+            "name": "Shotgun",
+            "imageName": "Select 3",
+            "descriptions": [
+                {
+                    "level": "1",
+                    "description": "+1 bullet"
+                },
+                {
+                    "level": "2",
+                    "description": "+2 bullet"
+                }
+            ]
+        }
+    ],
+    "statSelections": [
+        {
+            "name": "Power",
+            "imageName": "Select 6",
+            "description": "atk +7%"
+        },
+        {
+            "name": "Speed",
+            "imageName": "Select 7",
+            "description": "speed +3%"
+        },
+        {
+            "name": "MaxHP",
+            "imageName": "Select 8",
+            "description": "hp +20"
+        },
+        {
+            "name": "Cooldown",
+            "imageName": "Select 9",
+            "description": "weapon cooldown"
+        }
+    ]
+} 

@@ -7,6 +7,8 @@ public class DataManager
 {
     public Dictionary<int, Stat.ExpStats> ExpStatsDict { get; private set; } = new Dictionary<int, Stat.ExpStats>();
     public Dictionary<string, Stat.EnemyStat> EnemyStatDict { get; private set; } = new Dictionary<string, Stat.EnemyStat>();
+    public Dictionary<string, Stat.weaponSelection> WeaponSelectionDict { get; private set; }
+    public Dictionary<string, Stat.statSelection> StatSelectionDict { get; private set; }
 
     public interface ILoader<Key, Value>
     {
@@ -18,6 +20,8 @@ public class DataManager
     {
         ExpStatsDict = Load<Stat.PlayerStatData, int, Stat.ExpStats>("PlayerStatData");
         EnemyStatDict = Load<Stat.EnemyStatData, string, Stat.EnemyStat>("EnemyStatData");
+        WeaponSelectionDict = Load<Stat.SelectionData, string, Stat.weaponSelection>("SelectionData");
+        StatSelectionDict = Load<Stat.SelectionData, string, Stat.statSelection>("SelectionData");
     }
 
     public Dictionary<Key, Value> Load<Loader, Key, Value>(string path) where Loader : ILoader<Key, Value>

@@ -11,6 +11,7 @@ public abstract class UI_Base : MonoBehaviour
 {
     public Dictionary<Type, Object[]> Objects { get; protected set; } = new Dictionary<Type, Object[]>();
 
+    // Init()이 UI_Selection의 SetType보다 늦게 실행되는 문제: Start -> OnEnable
     private void Start()
     {
         Init();

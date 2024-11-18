@@ -52,4 +52,59 @@ namespace Stat
         }
     }
     #endregion
+
+    [Serializable]
+    public class desc
+    {
+        public int level;
+        public string description;
+    }
+
+    [Serializable]
+    public class weaponSelection
+    {
+        public string name;
+        public string imageName;
+        public List<desc> descriptions;
+
+        public string GetDesc(int level)
+        {
+            return descriptions[level].description;
+        }
+    }
+
+    [Serializable]
+    public class statSelection
+    {
+        public string name;
+        public string imageName;
+        public string description;
+    }
+
+    [Serializable]
+    public class SelectionData: ILoader<string, weaponSelection>, ILoader<string, statSelection>
+    {
+        public List<weaponSelection> weaponSelections;
+        public List<statSelection> statSelections;
+
+        public Dictionary<string, weaponSelection> MakeDict()
+        {
+            Dictionary<string, weaponSelection> dict = new Dictionary<string, weaponSelection>();
+            foreach (weaponSelection s in weaponSelections)
+            {
+                dict.Add(s.name, s);
+            }
+            return dict;
+        }
+
+        Dictionary<string, statSelection> ILoader<string, statSelection>.MakeDict()
+        {
+            Dictionary<string, statSelection> dict = new Dictionary<string, statSelection>();
+            foreach (statSelection s in statSelections)
+            {
+                dict.Add(s.name, s);
+            }
+            return dict;
+        }
+    }
 }

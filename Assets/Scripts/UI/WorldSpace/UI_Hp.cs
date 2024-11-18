@@ -12,6 +12,7 @@ public class UI_Hp : UI_Base
 
     BaseStat _stat;
     Slider _hpSlider;
+    int _originMaxHp = 0;
 
     protected override void Init()
     {
@@ -31,5 +32,11 @@ public class UI_Hp : UI_Base
     private void SetHPRatio()
     {
         _hpSlider.value = (float)_stat.HP / _stat.MaxHp;
+    }
+
+    public void SetSliderWidth()
+    {
+        Vector2 size = _hpSlider.GetComponent<RectTransform>().sizeDelta;
+        _hpSlider.GetComponent<RectTransform>().sizeDelta = new Vector2(size.x * 1.1f, size.y);
     }
 }

@@ -8,16 +8,21 @@ public class ShovelController : WeaponController
     [SerializeField] private float _rotateSpeed = 120f;
     [SerializeField] private float _radius = 1f;
 
+    PlayerStat _stat;
+
     public void Init(float degree)
     {
         _parent = transform.parent;
         Type = BulletType.Shovel;
         _degree = degree;
+        _stat = Managers.Game.Player.Stat;
     }
 
     private void Update()
     {
-        _degree += _rotateSpeed * Time.deltaTime;
+        float rotateSpeed = _rotateSpeed * Mathf.Pow(1.1f, _stat.Cooldown);
+
+        _degree += rotateSpeed * Time.deltaTime;
         transform.localPosition = new Vector3(Mathf.Sin(_degree * Mathf.Deg2Rad), Mathf.Cos(_degree * Mathf.Deg2Rad)) * _radius;
 
         Vector3 rotation = transform.rotation.eulerAngles;

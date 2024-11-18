@@ -7,6 +7,7 @@ public class PlayerStat : BaseStat
     [SerializeField] protected int _level;
     [SerializeField] protected int _exp;
     [SerializeField] protected int _totalExp;
+    [SerializeField] protected int _cooldown;
 
     public int Level
     {
@@ -37,6 +38,7 @@ public class PlayerStat : BaseStat
         }
     }
     public int TotalExp { get { return _totalExp; } set { _totalExp = value; } }
+    public int Cooldown {  get { return _cooldown; } set { _cooldown = value; } }
 
     private void Start()
     {
@@ -45,8 +47,9 @@ public class PlayerStat : BaseStat
         _speed = 5f;
         _maxHp = 20;
         _hp = 20;
-        _damage = 0;
+        _damage = 1;
         _hitDuration = 0.2f;
         _exp = 0;
+        _cooldown = 0;
     }
 }

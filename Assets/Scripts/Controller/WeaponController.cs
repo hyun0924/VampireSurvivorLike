@@ -13,4 +13,6 @@ public class WeaponController : MonoBehaviour
     public int Damage { get; protected set; } = 6;
     protected Transform _parent = null;
     public BulletType Type;
+
+    public int GetDamage() { return Damage * Managers.Game.Player.Stat.Damage; }
 }

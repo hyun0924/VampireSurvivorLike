@@ -106,7 +106,7 @@ public class EnemyController : CreatureController, IPoolable
         if (other.gameObject.layer == (int)Define.Layer.Bullet && State != Define.State.Hit)
         {
             WeaponController controller = other.GetComponent<WeaponController>();
-            StartCoroutine(OnHit(controller.Damage));
+            StartCoroutine(OnHit(controller.GetDamage()));
 
             if (controller.Type == WeaponController.BulletType.Bullet)
                 Managers.Resource.Destroy(other.gameObject);

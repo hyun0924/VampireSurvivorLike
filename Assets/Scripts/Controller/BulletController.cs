@@ -6,24 +6,19 @@ public class BulletController : WeaponController
 {
     [SerializeField] private float _shotSpeed = 5f;
     [SerializeField] private Vector3 _direction = Vector3.zero;
+    int _playerPower = 1;
 
-    public void Init(Transform parent, GameObject target)
+    public void Init(Transform parent, Vector3 pos, int damage)
     {
         _parent = parent;
         Type = BulletType.Bullet;
+        _playerPower = damage;
 
-        if (target == null)
-        {
-            Managers.Resource.Destroy(gameObject);
-            return;
-        }
-        _direction = target.transform.position - parent.transform.position;
+        _direction = pos - parent.transform.position;
 
         transform.position = parent.position;
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, Vector2.SignedAngle(Vector3.up, _direction)));
     }
-
-    // Update is called once per frame
 
     private void Update()
     {

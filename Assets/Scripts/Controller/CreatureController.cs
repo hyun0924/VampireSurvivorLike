@@ -7,7 +7,7 @@ public class CreatureController : MonoBehaviour
     protected SpriteRenderer _sr;
     protected Animator _anim;
     protected Color _originColor;
-    UI_Hp _hpUI;
+    protected UI_Hp _hpUI;
 
     private void Awake()
     {

@@ -51,4 +51,20 @@ public class Define
         Heal,
         BoxEnd,
     }
+
+    public enum WeaponType
+    {
+        Shovel,
+        Shotgun,
+        MaxCount
+    }
+
+    public enum StatType
+    {
+        Power,
+        Speed,
+        MaxHP,
+        Cooldown,
+        MaxCount
+    }
 }
