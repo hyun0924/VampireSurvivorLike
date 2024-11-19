@@ -15,16 +15,17 @@ public class UI_Selection : UI_Base
 
     enum Texts
     {
+        LevelText,
         NameText,
         DescText,
     }
 
     string _name;
     string _desc;
+    string _level;
     string _imageName;
 
-    Define.WeaponType _weaponType = Define.WeaponType.MaxCount;
-    Define.StatType _statType = Define.StatType.MaxCount;
+    Define.PlayerLevel _type = Define.PlayerLevel.MaxCount;
 
     protected override void Init()
     {
@@ -33,46 +34,44 @@ public class UI_Selection : UI_Base
 
         BindEvent(gameObject, OnClick);
 
+        GetText((int)Texts.LevelText).text = _level;
         GetText((int)Texts.NameText).text = _name;
         GetText((int)Texts.DescText).text = _desc;
         GetImage((int)Images.IconImage).sprite = Managers.Resource.LoadSubSprite("UI", _imageName);
     }
 
-    public void SetType(Define.WeaponType type)
+    public void SetInfo(Define.PlayerLevel type)
     {
-        Stat.weaponSelection data = Managers.Data.WeaponSelectionDict[Enum.GetName(typeof(Define.WeaponType), type)];
-        _weaponType = type;
-        _name = data.name;
-        _desc = data.descriptions[0].description; // TODO: 각자 레벨 알아야함
-        _imageName = data.imageName;
-    }
-    public void SetType(Define.StatType type)
-    {
-        Stat.statSelection data = Managers.Data.StatSelectionDict[Enum.GetName(typeof(Define.StatType), type)];
-        _statType = type;
-        _name = data.name;
-        _desc = data.description;
-        _imageName = data.imageName;
+        Stat.weaponSelection weaponData = null;
+        Stat.statSelection statData = null;
+        _type = type;
+        _level = $"Lv.{Managers.Game.Player.Levels[(int)type]}";
+        string typeName = Enum.GetName(typeof(Define.PlayerLevel), type);
+
+        if (type == Define.PlayerLevel.Shovel)
+            weaponData = Managers.Data.WeaponSelectionDict[typeName];
+        else if (type == Define.PlayerLevel.Gun)
+            weaponData = Managers.Data.WeaponSelectionDict[Enum.GetName(typeof(Define.GunType), (int)Managers.Game.CurrentPlayerType)];
+        else
+            statData = Managers.Data.StatSelectionDict[typeName];
+
+        if (weaponData != null)
+        {
+            _name = weaponData.name;
+            _desc = weaponData.descriptions[0].description; // TODO: 각자 레벨 알아야함
+            _imageName = weaponData.imageName;
+        }
+        else if (statData != null)
+        {
+            _name = statData.name;
+            _desc = statData.description;
+            _imageName = statData.imageName;
+        }
     }
 
     private void OnClick(PointerEventData data)
     {
-        if (_statType != Define.StatType.MaxCount)
-        {
-            Managers.Game.Player.StatLevelUp(_statType);
-        }
-        else
-        {
-            switch (_weaponType)
-            {
-                case Define.WeaponType.Shovel:
-                    Managers.Game.Player.ShovelLevelUp();
-                    break;
-                case Define.WeaponType.Shotgun:
-                    Managers.Game.Player.ShotgunLevel++;
-                    break;
-            }
-        }
+        Managers.Game.Player.LevelUp(_type);
 
         Managers.Resource.Destroy(transform.parent.parent.gameObject);
         Time.timeScale = 1.0f;

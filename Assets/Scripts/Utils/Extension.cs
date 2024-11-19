@@ -12,4 +12,9 @@ public static class Extension
     {
         return Util.FindChild<T>(parent, name);
     }
+
+    public static GameObject FindNearestEnemy(this GameObject go, float range)
+    {
+        return Util.FindNearestEnemy(go, range);
+    }
 }

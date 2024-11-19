@@ -17,14 +17,25 @@ public class UI_Upgrade : UI_Popup
 
         Bind<GameObject>(typeof(GameObjects));
         _selections = GetGameObject((int)GameObjects.Selections);
-        int range = (int)Define.WeaponType.MaxCount + (int)Define.StatType.MaxCount; // TODO: weapon은 player type 별로 다르게 해야함, 중복 선택?
+
+        List<int> availableSelections = new List<int>();
+        for (int i = 0; i < (int)Define.PlayerLevel.MaxCount; i++)
+            if (Managers.Game.Player.Levels[i] != 6) // Max Level 6
+                availableSelections.Add(i);
 
         for (int i = 0; i < 3; i++)
         {
+            if (availableSelections.Count == 0)
+            {
+                Managers.Resource.Destroy(gameObject);
+                break;
+            }
+
             UI_Selection selection = Managers.UI.AddSubItemUI<UI_Selection>(_selections.transform);
-            int rand = Random.Range(0, range);
-            if (rand < (int)Define.WeaponType.MaxCount) selection.SetType((Define.WeaponType)rand);
-            else selection.SetType((Define.StatType)(rand - Define.WeaponType.MaxCount));
+            int rand = availableSelections[Random.Range(0, availableSelections.Count)];
+            selection.SetInfo((Define.PlayerLevel)rand);
+
+            availableSelections.Remove(rand);
         }
     }
 }

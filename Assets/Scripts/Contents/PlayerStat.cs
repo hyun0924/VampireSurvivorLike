@@ -7,7 +7,8 @@ public class PlayerStat : BaseStat
     [SerializeField] protected int _level;
     [SerializeField] protected int _exp;
     [SerializeField] protected int _totalExp;
-    [SerializeField] protected int _cooldown;
+    [SerializeField] protected float _cooldown;
+    [SerializeField] protected int _killCount;
 
     public int Level
     {
@@ -38,7 +39,16 @@ public class PlayerStat : BaseStat
         }
     }
     public int TotalExp { get { return _totalExp; } set { _totalExp = value; } }
-    public int Cooldown {  get { return _cooldown; } set { _cooldown = value; } }
+    public float Cooldown {  get { return _cooldown; } set { _cooldown = value; } }
+    public int KillCount
+    {
+        get { return _killCount; }
+        set
+        {
+            _killCount = value;
+            (Managers.UI.SceneUI as UI_Game).SetText(UI_Game.Texts.KillText, _killCount.ToString());
+        }
+    }
 
     private void Start()
     {
@@ -50,6 +60,6 @@ public class PlayerStat : BaseStat
         _damage = 1;
         _hitDuration = 0.2f;
         _exp = 0;
-        _cooldown = 0;
+        _cooldown = 1f;
     }
 }

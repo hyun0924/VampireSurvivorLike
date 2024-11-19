@@ -126,4 +126,13 @@ public class TileMapManager
             RelocateTileMap();
         }
     }
+
+    public void Clear()
+    {
+        Managers.Resource.Destroy(_grid);
+        _grid = null;
+        _unusedTilemaps.Clear();
+        _usingTilemaps.Clear();
+        _currentPlayerIdx = Vector2Int.zero;
+    }
 }

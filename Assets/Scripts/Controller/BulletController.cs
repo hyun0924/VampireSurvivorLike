@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class BulletController : WeaponController
 {
-    [SerializeField] private float _shotSpeed = 5f;
-    [SerializeField] private Vector3 _direction = Vector3.zero;
-    int _playerPower = 1;
+    private float _shotSpeed;
+    private Vector3 _direction = Vector3.zero;
+    private int _count; // °üÅë
 
-    public void Init(Transform parent, Vector3 pos, int damage)
+    public void Init(Transform parent, Vector3 pos, int damage = 6, int count = 1, float speed = 7f)
     {
-        _parent = parent;
         Type = BulletType.Bullet;
-        _playerPower = damage;
-
+        _parent = parent;
         _direction = pos - parent.transform.position;
+        _damage = damage;
+        _count = count;
+        _shotSpeed = speed;
 
         transform.position = parent.position;
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, Vector2.SignedAngle(Vector3.up, _direction)));
@@ -26,5 +27,16 @@ public class BulletController : WeaponController
 
         if ((transform.position - _parent.position).magnitude > 20f)
             Managers.Resource.Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == (int)Define.Layer.Enemy)
+        {
+            _count--;
+
+            if (_count == 0)
+                Managers.Resource.Destroy(gameObject);
+        }
     }
 }

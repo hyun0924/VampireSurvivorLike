@@ -19,4 +19,10 @@ public class InputManager
         if (KeyBoardAction != null)
             KeyBoardAction.Invoke();
     }
+
+    public void Clear()
+    {
+        NoInputAction = null;
+        KeyBoardAction = null;
+    }
 }

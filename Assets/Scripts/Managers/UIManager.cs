@@ -84,4 +84,13 @@ public class UIManager
 
         return go.GetOrAddComponent<T>();
     }
+    
+    public void Clear()
+    {
+        while (_popupStack.Count > 0)
+            ClosePopupUI();
+        _popupStack.Clear();
+        SceneUI = null;
+        order = 10;
+    }
 }

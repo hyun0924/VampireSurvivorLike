@@ -104,4 +104,11 @@ public class PoolManager
 
         return go;
     }
+
+    public void Clear()
+    {
+        _pools.Clear();
+        for (int i = 0; i < Root.transform.childCount; i++)
+            Object.Destroy(Root.transform.GetChild(i).gameObject);
+    }
 }

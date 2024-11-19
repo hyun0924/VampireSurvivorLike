@@ -12,7 +12,6 @@ public class UI_Hp : UI_Base
 
     BaseStat _stat;
     Slider _hpSlider;
-    int _originMaxHp = 0;
 
     protected override void Init()
     {

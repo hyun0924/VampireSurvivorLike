@@ -10,9 +10,9 @@ public class WeaponController : MonoBehaviour
         Bullet,
     }
 
-    public int Damage { get; protected set; } = 6;
+    protected int _damage = 6;
     protected Transform _parent = null;
-    public BulletType Type;
+    protected BulletType Type;
 
-    public int GetDamage() { return Damage * Managers.Game.Player.Stat.Damage; }
+    public int GetDamage() { return _damage * Managers.Game.Player.Stat.Damage; }
 }

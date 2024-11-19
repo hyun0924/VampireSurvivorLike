@@ -11,6 +11,7 @@ public class PropController : Poolable
     Animator _anim;
     float _dragSpeed = 0;
     int _attackedCount = 0;
+    bool _isShown = false;
 
     enum States
     {
@@ -24,9 +25,10 @@ public class PropController : Poolable
 
     public void Init(Vector3 position, Define.Prop type)
     {
-        transform.position = position;
         _type = type;
         _state = States.Idle;
+
+        Respawn(position);
     }
 
     public override void Respawn(Vector3 position)
@@ -34,6 +36,17 @@ public class PropController : Poolable
         transform.position = position;
         _dragSpeed = 0;
         _attackedCount = 0;
+        _isShown = false;
+
+        if (_type == Define.Prop.Box)
+            StartCoroutine("ReserveDestroy");
+    }
+
+    IEnumerator ReserveDestroy()
+    {
+        yield return new WaitForSeconds(20f);
+        if (!_isShown)
+            Managers.Resource.Destroy(gameObject);
     }
 
     private void Start()
@@ -53,18 +66,24 @@ public class PropController : Poolable
 
             transform.position += dir.normalized * _dragSpeed * Time.deltaTime;
         }
+
+        if (!_isShown && _type == Define.Prop.Box)
+        {
+            Vector3 viewport = Camera.main.WorldToViewportPoint(transform.position);
+            if (0 <= viewport.x && viewport.x <= 1 && 0 <= viewport.y && viewport.y <= 1)
+            {
+                _isShown = true;
+                transform.parent = null;
+            }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (_type == Define.Prop.Box)
         {
-            if (other.gameObject.layer == (int)Define.Layer.Bullet && _attackedCount < 2)
+            if ((other.gameObject.layer == (int)Define.Layer.Bullet || other.gameObject.layer == (int)Define.Layer.Shovel) && _attackedCount < 2)
             {
-                WeaponController controller = other.GetComponent<WeaponController>();
-                if (controller.Type == WeaponController.BulletType.Bullet)
-                    Managers.Resource.Destroy(other.gameObject);
-
                 _attackedCount++;
                 if (_attackedCount == 2)
                 {
@@ -92,7 +111,7 @@ public class PropController : Poolable
                                 exp = 10;
                                 break;
                         }
-                        other.gameObject.GetComponent<PlayerController>().GetExp(exp);
+                        other.gameObject.GetComponent<PlayerController>().Stat.Exp += exp;
                     }
                     break;
                 case Define.Prop.Magnet:
@@ -107,7 +126,7 @@ public class PropController : Poolable
                     break;
                 case Define.Prop.Heal:
                     {
-                        other.gameObject.GetComponent<PlayerController>().RecoverHp(10); // TODO: 회복량 하드 코딩되어있음
+                        other.gameObject.GetComponent<PlayerController>().Stat.HP += 10; // TODO: 회복량 하드 코딩되어있음
                     }
                     break;
             }

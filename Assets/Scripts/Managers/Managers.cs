@@ -9,6 +9,7 @@ public class Managers : MonoBehaviour
     private InputManager _input = new InputManager();
     private PoolManager _pool = new PoolManager();
     private ResourceManager _resource = new ResourceManager();
+    private SceneManagerEx _scene = new SceneManagerEx();
     private TileMapManager _tileMap = new TileMapManager();
     private UIManager _ui = new UIManager();
 
@@ -19,6 +20,7 @@ public class Managers : MonoBehaviour
     public static InputManager Input { get { return Instance._input; } }
     public static PoolManager Pool { get { return Instance._pool; } }
     public static ResourceManager Resource { get { return Instance._resource; } }
+    public static SceneManagerEx Scene {  get { return Instance._scene; } }
     public static TileMapManager TileMap {  get { return Instance._tileMap; } }
     public static UIManager UI { get { return Instance._ui; } }
 
@@ -34,7 +36,6 @@ public class Managers : MonoBehaviour
             _instance = go.GetOrAddComponent<Managers>();
 
             _instance._data.Init();
-            _instance._tileMap.Init();
             _instance._pool.Init();
         }
     }
@@ -42,5 +43,14 @@ public class Managers : MonoBehaviour
     private void Update()
     {
         _input.UpdateInput();
+    }
+
+    public void Clear()
+    {
+        _game.Clear();
+        _input.Clear();
+        _pool.Clear();
+        _tileMap.Clear();
+        _ui.Clear();
     }
 }

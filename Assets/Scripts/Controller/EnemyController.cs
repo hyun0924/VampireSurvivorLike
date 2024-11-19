@@ -101,27 +101,35 @@ public class EnemyController : CreatureController, IPoolable
         }
     }
 
-    private void OnTriggerStay2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        if (other.gameObject.layer == (int)Define.Layer.Bullet && State != Define.State.Hit)
+        if (collision.gameObject.layer == (int)Define.Layer.Shovel && State != Define.State.Hit)
         {
-            WeaponController controller = other.GetComponent<WeaponController>();
+            ShovelController controller = collision.GetComponent<ShovelController>();
             StartCoroutine(OnHit(controller.GetDamage()));
+        }
+    }
 
-            if (controller.Type == WeaponController.BulletType.Bullet)
-                Managers.Resource.Destroy(other.gameObject);
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == (int)Define.Layer.Bullet)
+        {
+            BulletController controller = collision.GetComponent<BulletController>();
+            StartCoroutine(OnHit(controller.GetDamage()));
         }
     }
 
     IEnumerator OnHit(int damage)
     {
+        if (State == Define.State.Dead) yield break;
+
         State = Define.State.Hit;
         _stat.HP = Math.Max(0, _stat.HP - damage);
 
         if (_stat.HP <= 0)
         {
             State = Define.State.Dead;
-            Managers.Game.Player.KillCount++;
+            Managers.Game.Player.Stat.KillCount++;
             yield return new WaitForSeconds(_stat.DeadDuration);
 
             GameObject exp = Managers.Resource.Instantiate("Exp 0", Managers.Game.Props.transform);
@@ -133,6 +141,7 @@ public class EnemyController : CreatureController, IPoolable
 
         yield return new WaitForSeconds(_stat.HitDuration);
 
+        if (State == Define.State.Dead) yield break;
         State = Define.State.Run;
     }
 }

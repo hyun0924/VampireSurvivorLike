@@ -16,15 +16,17 @@ public class SpawnPool : MonoBehaviour
         public int CurrentCount = 0;
         public int ReservedCount = 0;
         public int MaxCount = 5;
+        public float cooldown = 5;
     }
 
-    public void AddSpawnTarget(string prefabName, int count)
+    public void AddSpawnTarget(string prefabName, int count, float cooldown = 5)
     {
         SpawnTarget target = new SpawnTarget();
         target.Name = prefabName;
         target.MaxCount = count;
         target.Pool = new GameObject { name = $"{prefabName}_Live_Pool" }.transform;
         target.Pool.parent = _root.transform;
+        target.cooldown = cooldown;
 
         _spawnTargets.Add(target);
     }
@@ -44,7 +46,7 @@ public class SpawnPool : MonoBehaviour
 
     IEnumerator ReserveSpawn(SpawnTarget target)
     {
-        yield return new WaitForSeconds(Random.Range(0, 5.0f));
+        yield return new WaitForSeconds(Random.Range(0, target.cooldown));
         GameObject go = Managers.Resource.Instantiate(target.Name, target.Pool);
 
         float degree = Random.Range(0, 360.0f);

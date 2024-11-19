@@ -12,6 +12,16 @@ public class Define
         Enemy,
         Dead,
         Exp,
+        Shovel,
+    }
+
+    public enum PlayerType
+    {
+        Farmer_0,
+        Farmer_1,
+        Farmer_2,
+        MaxCount,
+        Unknown
     }
 
     public enum EnemyType
@@ -52,19 +62,27 @@ public class Define
         BoxEnd,
     }
 
-    public enum WeaponType
+    public enum PlayerLevel
     {
         Shovel,
-        Shotgun,
-        MaxCount
-    }
-
-    public enum StatType
-    {
+        Gun,
         Power,
         Speed,
         MaxHP,
         Cooldown,
         MaxCount
+    }
+
+    public enum GunType
+    {
+        Shotgun,
+        Riple,
+        Sniper,
+    }
+
+    public enum Scene
+    {
+        Login,
+        Game,
     }
 }

@@ -31,19 +31,14 @@ public class UI_Game : UI_Scene
         StartCoroutine("UpdateTime");
     }
 
-    private void Update()
-    {
-
-    }
-
     IEnumerator UpdateTime()
     {
-        int second = 0;
+        Managers.Game.Second = 0;
         WaitForSeconds sec = new(1f);
-        while(true)
+        while (true)
         {
-            SetText(Texts.TimeText, string.Format("{0:00}:{1:00}", second / 60, second % 60));
-            second++;
+            SetText(Texts.TimeText, string.Format("{0:00}:{1:00}", Managers.Game.Second / 60, Managers.Game.Second % 60));
+            Managers.Game.Second++;
             yield return sec;
         }
     }

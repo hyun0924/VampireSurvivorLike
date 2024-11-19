@@ -20,7 +20,7 @@ public class ShovelController : WeaponController
 
     private void Update()
     {
-        float rotateSpeed = _rotateSpeed * Mathf.Pow(1.1f, _stat.Cooldown);
+        float rotateSpeed = _rotateSpeed * _stat.Cooldown;
 
         _degree += rotateSpeed * Time.deltaTime;
         transform.localPosition = new Vector3(Mathf.Sin(_degree * Mathf.Deg2Rad), Mathf.Cos(_degree * Mathf.Deg2Rad)) * _radius;
