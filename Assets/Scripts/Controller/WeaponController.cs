@@ -14,5 +14,5 @@ public class WeaponController : MonoBehaviour
     protected Transform _parent = null;
     protected BulletType Type;
 
-    public int GetDamage() { return _damage * Managers.Game.Player.Stat.Damage; }
+    public int GetDamage() { return _damage * Managers.Game.Player.StatPlayer.Damage; }
 }

@@ -17,6 +17,10 @@ public class UI_Login : UI_Scene
 
         Bind<Button>(typeof(Buttons));
         Button button = GetButton((int)Buttons.StartButton);
-        BindEvent(button.gameObject, (PointerEventData) => { Managers.Scene.LoadScene(Define.Scene.Game); });
+        BindEvent(button.gameObject, (PointerEventData) =>
+        {
+            Managers.Sound.Play(Define.Audio.Select);
+            Managers.UI.ShowPopupUI<UI_CharacterSelect>();
+        });
     }
 }

@@ -199,7 +199,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Weapon 3
+      name: Weapon 4
       rect:
         serializedVersion: 2
         x: 0
@@ -220,7 +220,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Weapon 4
+      name: Weapon 3
       rect:
         serializedVersion: 2
         x: 19
@@ -561,8 +561,8 @@ TextureImporter:
       Weapon 0: 143021600
       Weapon 1: -1972582131
       Weapon 2: 1349035616
-      Weapon 3: -353751291
-      Weapon 4: -144335857
+      Weapon 3: -144335857
+      Weapon 4: -353751291
       Weapon 5: 1772703093
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0

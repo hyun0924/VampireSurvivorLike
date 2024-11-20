@@ -15,15 +15,35 @@ namespace Stat
     }
 
     [Serializable]
-    public class PlayerStatData : ILoader<int, ExpStats>
+    public class PlayerInfo
+    {
+        public int idx;
+        public string name;
+        public string desc;
+        public string unlock;
+        public List<int> stats;
+        public List<int> color;
+    }
+
+    [Serializable]
+    public class PlayerStatData : ILoader<int, ExpStats>, ILoader<int,  PlayerInfo>
     {
         public List<ExpStats> expStats = new List<ExpStats>();
+        public List<PlayerInfo> playerInfos = new List<PlayerInfo>();
 
         public Dictionary<int, ExpStats> MakeDict()
         {
             Dictionary<int, ExpStats> dict = new Dictionary<int, ExpStats>();
             foreach (ExpStats expStat in expStats)
                 dict.Add(expStat.level, expStat);
+            return dict;
+        }
+
+        Dictionary<int, PlayerInfo> ILoader<int, PlayerInfo>.MakeDict()
+        {
+            Dictionary<int, PlayerInfo> dict = new Dictionary<int, PlayerInfo>();
+            foreach (PlayerInfo playerInfo in playerInfos)
+                dict.Add(playerInfo.idx, playerInfo);
             return dict;
         }
     }
@@ -53,6 +73,7 @@ namespace Stat
     }
     #endregion
 
+    #region Selections
     [Serializable]
     public class desc
     {
@@ -107,4 +128,5 @@ namespace Stat
             return dict;
         }
     }
+    #endregion
 }

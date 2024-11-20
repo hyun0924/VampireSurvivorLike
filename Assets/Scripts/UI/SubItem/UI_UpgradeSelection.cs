@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UI_Selection : UI_Base
+public class UI_UpgradeSelection : UI_Base
 {
     enum Images
     {
@@ -49,16 +49,16 @@ public class UI_Selection : UI_Base
         string typeName = Enum.GetName(typeof(Define.PlayerLevel), type);
 
         if (type == Define.PlayerLevel.Shovel)
-            weaponData = Managers.Data.WeaponSelectionDict[typeName];
+            weaponData = Managers.Data.WeaponSelectionDict[Enum.GetName(typeof(Define.Shovel), (int)Managers.Game.CurrentPlayerType)];
         else if (type == Define.PlayerLevel.Gun)
-            weaponData = Managers.Data.WeaponSelectionDict[Enum.GetName(typeof(Define.GunType), (int)Managers.Game.CurrentPlayerType)];
+            weaponData = Managers.Data.WeaponSelectionDict[Enum.GetName(typeof(Define.Gun), (int)Managers.Game.CurrentPlayerType)];
         else
             statData = Managers.Data.StatSelectionDict[typeName];
 
         if (weaponData != null)
         {
             _name = weaponData.name;
-            _desc = weaponData.descriptions[0].description; // TODO: 각자 레벨 알아야함
+            _desc = weaponData.descriptions[Managers.Game.Player.Levels[(int)type]].description;
             _imageName = weaponData.imageName;
         }
         else if (statData != null)
@@ -71,9 +71,11 @@ public class UI_Selection : UI_Base
 
     private void OnClick(PointerEventData data)
     {
+        Managers.Sound.Play(Define.Audio.Select);
+
         Managers.Game.Player.LevelUp(_type);
 
-        Managers.Resource.Destroy(transform.parent.parent.gameObject);
+        Managers.UI.ClosePopupUI();
         Time.timeScale = 1.0f;
     }
 }

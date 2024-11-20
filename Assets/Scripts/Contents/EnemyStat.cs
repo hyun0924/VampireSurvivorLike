@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class EnemyStat : BaseStat
 {
-    [SerializeField] Define.EnemyType _type;
+    [SerializeField] Define.Enemy _type;
     [SerializeField] float _detectDistance;
     [SerializeField] float _deadDuration;
 
-    public Define.EnemyType Type { get { return _type; } }
+    public Define.Enemy Type { get { return _type; } }
     public float DetectDistance {  get { return _detectDistance; } set { _detectDistance = value; } }
     public float DeadDuration { get { return _deadDuration; } set { _deadDuration = value; } }
 
@@ -31,9 +31,9 @@ public class EnemyStat : BaseStat
         _deadDuration = 1f;
     }
 
-    private Define.EnemyType GetType(string name)
+    private Define.Enemy GetType(string name)
     {
-        Define.EnemyType type = Define.EnemyType.Enemy_0;
+        Define.Enemy type = Define.Enemy.Enemy_0;
         Enum.TryParse(name, out type);
         return type;
     }

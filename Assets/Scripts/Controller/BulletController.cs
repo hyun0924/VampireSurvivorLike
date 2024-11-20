@@ -8,11 +8,12 @@ public class BulletController : WeaponController
     private Vector3 _direction = Vector3.zero;
     private int _count; // °üÅë
 
-    public void Init(Transform parent, Vector3 pos, int damage = 6, int count = 1, float speed = 7f)
+    public void Init(Transform parent, Vector3 pos, Sprite sprite, int damage = 6, int count = 1, float speed = 7f)
     {
         Type = BulletType.Bullet;
         _parent = parent;
         _direction = pos - parent.transform.position;
+        GetComponent<SpriteRenderer>().sprite = sprite;
         _damage = damage;
         _count = count;
         _shotSpeed = speed;

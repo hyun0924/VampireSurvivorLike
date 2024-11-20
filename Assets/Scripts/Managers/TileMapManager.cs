@@ -90,7 +90,11 @@ public class TileMapManager
             {
                 if (isTileMap[i, j]) continue;
 
-                if (_unusedTilemaps.Count == 0) { Debug.Log("Tilemap error"); return; } // TODO: 맵 새로 만들게 하기?
+                if (_unusedTilemaps.Count == 0)
+                {
+                    Debug.Log("Tilemap error");
+                    return;
+                } // TODO: 맵 새로 만들게 하기?
                 GameObject tilemap = _unusedTilemaps.Pop();
                 tilemap.transform.position = new Vector3((1 + _currentPlayerIdx.x - i) * _width, (1 + _currentPlayerIdx.y - j) * _height);
                 tilemap.SetActive(true);

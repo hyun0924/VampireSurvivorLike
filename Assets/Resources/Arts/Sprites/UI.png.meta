@@ -220,7 +220,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Select 3
+      name: Select 4
       rect:
         serializedVersion: 2
         x: 0
@@ -241,7 +241,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Select 4
+      name: Select 3
       rect:
         serializedVersion: 2
         x: 19
@@ -642,8 +642,8 @@ TextureImporter:
       Select 0: -181907988
       Select 1: -1786786079
       Select 2: -344242777
-      Select 3: -205726582
-      Select 4: 563336626
+      Select 3: 563336626
+      Select 4: -205726582
       Select 5: -762074860
       Select 6: -201829820
       Select 7: -966295699

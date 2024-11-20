@@ -111,7 +111,7 @@ public class PropController : Poolable
                                 exp = 10;
                                 break;
                         }
-                        other.gameObject.GetComponent<PlayerController>().Stat.Exp += exp;
+                        other.gameObject.GetComponent<PlayerController>().StatPlayer.Exp += exp;
                     }
                     break;
                 case Define.Prop.Magnet:
@@ -126,7 +126,7 @@ public class PropController : Poolable
                     break;
                 case Define.Prop.Heal:
                     {
-                        other.gameObject.GetComponent<PlayerController>().Stat.HP += 10; // TODO: 회복량 하드 코딩되어있음
+                        other.gameObject.GetComponent<PlayerController>().StatPlayer.HP += 10; // TODO: 회복량 하드 코딩되어있음
                     }
                     break;
             }

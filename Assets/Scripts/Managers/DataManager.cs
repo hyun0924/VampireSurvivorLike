@@ -6,6 +6,7 @@ using UnityEngine;
 public class DataManager
 {
     public Dictionary<int, Stat.ExpStats> ExpStatsDict { get; private set; } = new Dictionary<int, Stat.ExpStats>();
+    public Dictionary<int, Stat.PlayerInfo> PlayerInfoDict { get; private set; } = new Dictionary<int, Stat.PlayerInfo>();
     public Dictionary<string, Stat.EnemyStat> EnemyStatDict { get; private set; } = new Dictionary<string, Stat.EnemyStat>();
     public Dictionary<string, Stat.weaponSelection> WeaponSelectionDict { get; private set; }
     public Dictionary<string, Stat.statSelection> StatSelectionDict { get; private set; }
@@ -19,6 +20,7 @@ public class DataManager
     public void Init()
     {
         ExpStatsDict = Load<Stat.PlayerStatData, int, Stat.ExpStats>("PlayerStatData");
+        PlayerInfoDict = Load<Stat.PlayerStatData, int, Stat.PlayerInfo>("PlayerStatData");
         EnemyStatDict = Load<Stat.EnemyStatData, string, Stat.EnemyStat>("EnemyStatData");
         WeaponSelectionDict = Load<Stat.SelectionData, string, Stat.weaponSelection>("SelectionData");
         StatSelectionDict = Load<Stat.SelectionData, string, Stat.statSelection>("SelectionData");

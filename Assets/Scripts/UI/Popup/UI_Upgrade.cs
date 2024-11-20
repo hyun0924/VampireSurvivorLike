@@ -27,11 +27,11 @@ public class UI_Upgrade : UI_Popup
         {
             if (availableSelections.Count == 0)
             {
-                Managers.Resource.Destroy(gameObject);
+                Managers.UI.ClosePopupUI();
                 break;
             }
 
-            UI_Selection selection = Managers.UI.AddSubItemUI<UI_Selection>(_selections.transform);
+            UI_UpgradeSelection selection = Managers.UI.AddSubItemUI<UI_UpgradeSelection>(_selections.transform);
             int rand = availableSelections[Random.Range(0, availableSelections.Count)];
             selection.SetInfo((Define.PlayerLevel)rand);
 

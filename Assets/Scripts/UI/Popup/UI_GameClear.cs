@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UI_GameOver : UI_Popup
+public class UI_GameClear : UI_Popup
 {
     enum Texts
     {
@@ -22,12 +22,15 @@ public class UI_GameOver : UI_Popup
     {
         base.Init();
 
-        Managers.Sound.Play(Define.Audio.Lose);
+        Managers.Sound.Play(Define.Audio.Win);
 
         Bind<TextMeshProUGUI>(typeof(Texts));
         Bind<Button>(typeof(Buttons));
 
         Time.timeScale = 0;
+        if (Managers.Game.IsLocked[2])
+            Managers.Game.IsLocked[2] = false;
+
         GetText((int)Texts.KillText).text = Managers.Game.Player.StatPlayer.KillCount.ToString();
         GetText((int)Texts.TimeText).text = string.Format("{0:00}:{1:00}", Managers.Game.GameSecond / 60, Managers.Game.GameSecond % 60);
 

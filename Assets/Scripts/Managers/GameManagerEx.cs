@@ -4,15 +4,25 @@ using UnityEngine;
 
 public class GameManagerEx
 {
+    public Define.Player CurrentPlayerType = Define.Player.Unknown;
     public PlayerController Player = null;
-
-    public Define.PlayerType CurrentPlayerType = Define.PlayerType.Unknown;
     public GameObject Props { get { return Util.GetOrCreateGameObject("@Props"); } }
-    public int Second;
+    public int GameSecond;
+    public bool[] IsLocked = new bool[(int)Define.Player.MaxCount];
+    public bool IsClear = false;
+
+    public void Init()
+    {
+        for (int i = 0; i < IsLocked.Length; i++)
+            IsLocked[i] = true;
+        IsLocked[0] = false;
+    }
 
     public void Clear()
     {
-        CurrentPlayerType = Define.PlayerType.Unknown;
-        Second = 0;
+        CurrentPlayerType = Define.Player.Unknown;
+        Player = null;
+        GameSecond = 0;
+        IsClear = false;
     }
 }

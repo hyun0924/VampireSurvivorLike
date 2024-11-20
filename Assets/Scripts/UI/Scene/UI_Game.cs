@@ -28,19 +28,6 @@ public class UI_Game : UI_Scene
         Bind<TextMeshProUGUI>(typeof(Texts));
 
         Get<TextMeshProUGUI>((int)Texts.KillText).text = "0";
-        StartCoroutine("UpdateTime");
-    }
-
-    IEnumerator UpdateTime()
-    {
-        Managers.Game.Second = 0;
-        WaitForSeconds sec = new(1f);
-        while (true)
-        {
-            SetText(Texts.TimeText, string.Format("{0:00}:{1:00}", Managers.Game.Second / 60, Managers.Game.Second % 60));
-            Managers.Game.Second++;
-            yield return sec;
-        }
     }
 
     public void SetExpSlider(float value)

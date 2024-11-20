@@ -490,7 +490,7 @@ GameObject:
   - component: {fileID: 1458762783210622889}
   - component: {fileID: 4897863537463342518}
   m_Layer: 5
-  m_Name: UI_Selection
+  m_Name: UI_UpgradeSelection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -1,31 +1,43 @@
 {
-  "expStats": [
-    {
-      "level": "1",
-      "totalExp": "0"
-    },
-    {
-      "level": "2",
-      "totalExp": "5"
-    },
-    {
-      "level": "3",
-      "totalExp": "10"
-    }
-  ],
+    "expStats": [
+        {
+            "level": "1",
+            "totalExp": "0"
+        },
+        {
+            "level": "2",
+            "totalExp": "5"
+        },
+        {
+            "level": "3",
+            "totalExp": "10"
+        }
+    ],
 
-  "hi": [
-    {
-      "level": "1",
-      "totalExp": "0"
-    },
-    {
-      "level": "2",
-      "totalExp": "5"
-    },
-    {
-      "level": "3",
-      "totalExp": "10"
-    }
-  ]
-} 
+    "playerInfos": [
+        {
+            "idx": "0",
+            "name": "Rice",
+            "desc": "+ speed",
+            "unlock": "",
+            "stats": [ "1", "1", "0", "0", "0", "0" ],
+            "color": [ "62", "117", "191" ]
+        },
+        {
+            "idx": "1",
+            "name": "Corn",
+            "desc": "+ cooldown",
+            "unlock": "Kill 10 Undead",
+            "stats": [ "1", "1", "0", "0", "0", "0" ],
+            "color": [ "229", "85", "122" ]
+        },
+        {
+            "idx": "2",
+            "name": "Barley",
+            "desc": "+ power",
+            "unlock": "Survived",
+            "stats": [ "1", "1", "0", "0", "0", "0" ],
+            "color": [ "99", "72", "188" ]
+        }
+    ]
+}

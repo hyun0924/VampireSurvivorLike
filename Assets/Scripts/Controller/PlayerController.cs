@@ -8,19 +8,20 @@ using static WeaponController;
 public class PlayerController : CreatureController
 {
     Rigidbody2D _rb;
-    PlayerStat _stat;
-    public PlayerStat Stat { get { return _stat; } }
+    public PlayerStat StatPlayer { get { return gameObject.GetOrAddComponent<PlayerStat>(); } }
     public int[] Levels = new int[(int)Define.PlayerLevel.MaxCount];
-
 
     GameObject _bullets;
     SpriteRenderer _leftHand;
     SpriteRenderer _rightHand;
     Sprite _leftHandSprite;
     Sprite _rightHandSprite;
+    Sprite _shovelSprite;
+    Sprite _bulletSprite;
 
     Vector3 _moveVec = Vector3.zero;
     bool _invincible = false;
+    Sprite[] _sprites;
 
     [SerializeField] Define.State _state = Define.State.Idle;
     Define.State State
@@ -60,7 +61,7 @@ public class PlayerController : CreatureController
                 case Define.State.Dead:
                     {
                         _anim.Play("DEAD");
-                        StopCoroutine(Enum.GetName(typeof(Define.GunType), Managers.Game.CurrentPlayerType));
+                        StopCoroutine(Enum.GetName(typeof(Define.Gun), Managers.Game.CurrentPlayerType));
 
                         for (int i = 0; i < _bullets.transform.childCount; i++)
                             Managers.Resource.Destroy(_bullets.transform.GetChild(i).gameObject);
@@ -74,10 +75,9 @@ public class PlayerController : CreatureController
 
     protected override void Init()
     {
-        _stat = gameObject.GetOrAddComponent<PlayerStat>();
-        base.Init();
-
         _rb = GetComponent<Rigidbody2D>();
+
+        base.Init();
 
         Managers.Input.NoInputAction -= () => { if (State == Define.State.Run) State = Define.State.Idle; };
         Managers.Input.NoInputAction += () => { if (State == Define.State.Run) State = Define.State.Idle; };
@@ -86,16 +86,36 @@ public class PlayerController : CreatureController
         Managers.Input.KeyBoardAction += OnKeyBoard;
 
         _bullets = Util.GetOrCreateGameObject("Bullets", transform);
+        LoadSprites();
+
+        Stat.PlayerInfo info;
+        if (!Managers.Data.PlayerInfoDict.TryGetValue((int)Managers.Game.CurrentPlayerType, out info))
+            Debug.Log("No Player Data");
+
+        for (int i = 0; i < (int)Define.PlayerLevel.MaxCount; i++)
+        {
+            Levels[i] = 0;
+
+            while (Levels[i] < info.stats[i])
+                LevelUp((Define.PlayerLevel)i);
+        }
+    }
+
+    private void LoadSprites()
+    {
+        _sprites = Resources.LoadAll<Sprite>($"Arts/Sprites/Farmer_{(int)Managers.Game.CurrentPlayerType}");
         _leftHand = gameObject.FindChild<SpriteRenderer>("LeftHand");
         _rightHand = gameObject.FindChild<SpriteRenderer>("RightHand");
         _leftHandSprite = Managers.Resource.LoadSubSprite("Props", $"Weapon {(int)Managers.Game.CurrentPlayerType}");
-        _rightHandSprite = Managers.Resource.LoadSubSprite("Props", $"Weapon {(int)Define.PlayerType.MaxCount + (int)Managers.Game.CurrentPlayerType}");
-
-        for (int i = 0; i < (int)Define.PlayerLevel.MaxCount; i++) Levels[i] = 0;
+        _rightHandSprite = Managers.Resource.LoadSubSprite("Props", $"Weapon {(int)Define.Player.MaxCount + (int)Managers.Game.CurrentPlayerType}");
+        _shovelSprite = Managers.Resource.LoadSubSprite("Props", $"Bullet {(int)Managers.Game.CurrentPlayerType}");
+        _bulletSprite = Managers.Resource.LoadSubSprite("Props", $"Bullet {(int)Define.Player.MaxCount + (int)Managers.Game.CurrentPlayerType}");
     }
 
     void Update()
     {
+        if (State == Define.State.Dead || Managers.Game.IsClear) return;
+
         Managers.TileMap.UpdateTileMap(transform.position, _moveVec);
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -119,10 +139,10 @@ public class PlayerController : CreatureController
 
             for (int i = 0; i < Levels[(int)Define.PlayerLevel.Gun] + 1; i++)
             {
-                Managers.Resource.Instantiate("Bullet 0").GetOrAddComponent<BulletController>().Init(transform, target.transform.position, 4);
+                Managers.Resource.Instantiate("Weapons/Bullet").GetOrAddComponent<BulletController>().Init(transform, target.transform.position, _bulletSprite, 4);
                 yield return sec;
             }
-            yield return new WaitForSeconds(0.5f / _stat.Cooldown);
+            yield return new WaitForSeconds(0.5f / StatPlayer.Cooldown);
         }
     }
 
@@ -148,7 +168,7 @@ public class PlayerController : CreatureController
             else
             {
                 degree = 15f;
-                Managers.Resource.Instantiate("Bullet 1").GetOrAddComponent<BulletController>().Init(transform, target.transform.position, 5);
+                Managers.Resource.Instantiate("Weapons/Bullet").GetOrAddComponent<BulletController>().Init(transform, target.transform.position, _bulletSprite, 5);
             }
 
             int a = (Levels[(int)Define.PlayerLevel.Gun] + 1) / 2;
@@ -158,11 +178,11 @@ public class PlayerController : CreatureController
                 Vector3 v1 = transform.position + new Vector3(dir.x + dir.y * tan, dir.y - dir.x * tan);
                 Vector3 v2 = transform.position + new Vector3(dir.x - dir.y * tan, dir.y + dir.x * tan);
 
-                Managers.Resource.Instantiate("Bullet 1").GetOrAddComponent<BulletController>().Init(transform, v1, 5);
-                Managers.Resource.Instantiate("Bullet 1").GetOrAddComponent<BulletController>().Init(transform, v2, 5);
+                Managers.Resource.Instantiate("Weapons/Bullet").GetOrAddComponent<BulletController>().Init(transform, v1, _bulletSprite, 5);
+                Managers.Resource.Instantiate("Weapons/Bullet").GetOrAddComponent<BulletController>().Init(transform, v2, _bulletSprite, 5);
             }
 
-            yield return new WaitForSeconds(1.5f / _stat.Cooldown);
+            yield return new WaitForSeconds(1.5f / StatPlayer.Cooldown);
         }
     }
 
@@ -178,9 +198,9 @@ public class PlayerController : CreatureController
                 continue;
             }
 
-            GameObject go = Managers.Resource.Instantiate("Bullet 2");
-            go.GetOrAddComponent<BulletController>().Init(transform, target.transform.position, 10, Levels[(int)Define.PlayerLevel.Gun], 12f);
-            yield return new WaitForSeconds(2.0f / _stat.Cooldown);
+            GameObject go = Managers.Resource.Instantiate("Weapons/Bullet");
+            go.GetOrAddComponent<BulletController>().Init(transform, target.transform.position, _bulletSprite, 10, Levels[(int)Define.PlayerLevel.Gun], 12f);
+            yield return new WaitForSeconds(2.0f / StatPlayer.Cooldown);
         }
     }
     #endregion
@@ -197,7 +217,8 @@ public class PlayerController : CreatureController
                         _leftHand.sprite = _leftHandSprite;
 
                     float degree = 360.0f / level;
-                    Managers.Resource.Instantiate("Shovel 0", _bullets.transform);
+                    GameObject shovel = Managers.Resource.Instantiate($"Weapons/Shovel", _bullets.transform);
+                    shovel.GetComponent<SpriteRenderer>().sprite = _shovelSprite;
 
                     for (int i = 0; i < _bullets.transform.childCount; i++)
                         _bullets.transform.GetChild(i).GetOrAddComponent<ShovelController>().Init(degree * i);
@@ -208,29 +229,29 @@ public class PlayerController : CreatureController
                     if (level == 1)
                     {
                         _rightHand.sprite = _rightHandSprite;
-                        StartCoroutine(Enum.GetName(typeof(Define.GunType), Managers.Game.CurrentPlayerType));
+                        StartCoroutine(Enum.GetName(typeof(Define.Gun), Managers.Game.CurrentPlayerType));
                     }
                 }
                 break;
             case Define.PlayerLevel.Speed:
                 {
-                    _stat.Speed *= 1.03f;
+                    StatPlayer.Speed *= 1.03f;
                 }
                 break;
             case Define.PlayerLevel.MaxHP:
                 {
-                    _stat.MaxHp = _stat.MaxHp + 5;
+                    StatPlayer.MaxHp = StatPlayer.MaxHp + 5;
                     _hpUI.SetSliderWidth();
                 }
                 break;
             case Define.PlayerLevel.Power:
                 {
-                    _stat.Damage = (int)(_stat.Damage * 1.07f);
+                    StatPlayer.Damage = (int)(StatPlayer.Damage * 1.07f);
                 }
                 break;
             case Define.PlayerLevel.Cooldown:
                 {
-                    _stat.Cooldown *= 1.1f;
+                    StatPlayer.Cooldown *= 1.1f;
                 }
                 break;
         }
@@ -244,19 +265,19 @@ public class PlayerController : CreatureController
 
         if (Input.GetKey(KeyCode.W))
         {
-            _moveVec += Vector3.up * _stat.Speed * Time.deltaTime;
+            _moveVec += Vector3.up * StatPlayer.Speed * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            _moveVec += Vector3.down * _stat.Speed * Time.deltaTime;
+            _moveVec += Vector3.down * StatPlayer.Speed * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            _moveVec += Vector3.left * _stat.Speed * Time.deltaTime;
+            _moveVec += Vector3.left * StatPlayer.Speed * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            _moveVec += Vector3.right * _stat.Speed * Time.deltaTime;
+            _moveVec += Vector3.right * StatPlayer.Speed * Time.deltaTime;
         }
 
         transform.position += _moveVec;
@@ -270,6 +291,7 @@ public class PlayerController : CreatureController
 
         if (other.gameObject.layer == (int)Define.Layer.Enemy && !_invincible)
         {
+            Managers.Sound.Play(Define.Audio.Melee1);
             int damage = other.gameObject.GetComponent<EnemyStat>().Damage;
             StartCoroutine(OnHit(damage));
         }
@@ -279,9 +301,9 @@ public class PlayerController : CreatureController
     {
         _invincible = true;
         State = Define.State.Hit;
-        _stat.HP = Math.Max(0, _stat.HP - damage);
+        StatPlayer.HP = Math.Max(0, StatPlayer.HP - damage);
 
-        if (_stat.HP <= 0)
+        if (StatPlayer.HP <= 0)
         {
             _sr.color = _originColor;
             State = Define.State.Dead;
@@ -289,8 +311,13 @@ public class PlayerController : CreatureController
             yield break;
         }
 
-        yield return new WaitForSeconds(_stat.HitDuration);
+        yield return new WaitForSeconds(StatPlayer.HitDuration);
         _sr.color = _originColor;
         _invincible = false;
+    }
+
+    public void SetSprite(Define.PlayerSprite spriteName)
+    {
+        _sr.sprite = _sprites[(int)spriteName];
     }
 }

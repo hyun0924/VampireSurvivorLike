@@ -16,7 +16,8 @@ public class CreatureController : MonoBehaviour
 
     protected virtual void Init()
     {
-        _sr = GetComponent<SpriteRenderer>();
+        _sr = gameObject.FindChild<SpriteRenderer>("Sprite");
+        if (_sr == null) _sr = GetComponent<SpriteRenderer>();
         _originColor = _sr.color;
 
         _anim = GetComponent<Animator>();

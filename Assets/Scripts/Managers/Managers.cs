@@ -10,6 +10,7 @@ public class Managers : MonoBehaviour
     private PoolManager _pool = new PoolManager();
     private ResourceManager _resource = new ResourceManager();
     private SceneManagerEx _scene = new SceneManagerEx();
+    private SoundManager _sound = new SoundManager();
     private TileMapManager _tileMap = new TileMapManager();
     private UIManager _ui = new UIManager();
 
@@ -21,6 +22,7 @@ public class Managers : MonoBehaviour
     public static PoolManager Pool { get { return Instance._pool; } }
     public static ResourceManager Resource { get { return Instance._resource; } }
     public static SceneManagerEx Scene {  get { return Instance._scene; } }
+    public static SoundManager Sound {  get { return Instance._sound; } }
     public static TileMapManager TileMap {  get { return Instance._tileMap; } }
     public static UIManager UI { get { return Instance._ui; } }
 
@@ -37,6 +39,8 @@ public class Managers : MonoBehaviour
 
             _instance._data.Init();
             _instance._pool.Init();
+            _instance._sound.Init();
+            _instance._game.Init();
         }
     }
 

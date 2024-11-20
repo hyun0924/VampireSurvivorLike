@@ -10,12 +10,88 @@
                 },
                 {
                     "level": "2",
-                    "description": "+2 shovel"
+                    "description": "+1 shovel"
+                },
+                {
+                    "level": "3",
+                    "description": "+1 shovel"
+                },
+                {
+                    "level": "4",
+                    "description": "+1 shovel"
+                },
+                {
+                    "level": "5",
+                    "description": "+1 shovel"
+                },
+                {
+                    "level": "6",
+                    "description": "+1 shovel"
                 }
             ]
         },
         {
-            "name": "Shotgun",
+            "name": "Pitchfork",
+            "imageName": "Select 1",
+            "descriptions": [
+                {
+                    "level": "1",
+                    "description": "+1 fork"
+                },
+                {
+                    "level": "2",
+                    "description": "+1 fork"
+                },
+                {
+                    "level": "3",
+                    "description": "+1 fork"
+                },
+                {
+                    "level": "4",
+                    "description": "+1 fork"
+                },
+                {
+                    "level": "5",
+                    "description": "+1 fork"
+                },
+                {
+                    "level": "6",
+                    "description": "+1 fork"
+                }
+            ]
+        },
+        {
+            "name": "Sickle",
+            "imageName": "Select 2",
+            "descriptions": [
+                {
+                    "level": "1",
+                    "description": "+1 sickle"
+                },
+                {
+                    "level": "2",
+                    "description": "+1 sickle"
+                },
+                {
+                    "level": "3",
+                    "description": "+1 sickle"
+                },
+                {
+                    "level": "4",
+                    "description": "+1 sickle"
+                },
+                {
+                    "level": "5",
+                    "description": "+1 sickle"
+                },
+                {
+                    "level": "6",
+                    "description": "+1 sickle"
+                }
+            ]
+        },
+        {
+            "name": "Riple",
             "imageName": "Select 3",
             "descriptions": [
                 {
@@ -24,6 +100,82 @@
                 },
                 {
                     "level": "2",
+                    "description": "+1 bullet"
+                },
+                {
+                    "level": "3",
+                    "description": "+1 bullet"
+                },
+                {
+                    "level": "4",
+                    "description": "+1 bullet"
+                },
+                {
+                    "level": "5",
+                    "description": "+1 bullet"
+                },
+                {
+                    "level": "6",
+                    "description": "+1 bullet"
+                }
+            ]
+        },
+        {
+            "name": "Sniper",
+            "imageName": "Select 4",
+            "descriptions": [
+                {
+                    "level": "1",
+                    "description": "+1 penetration"
+                },
+                {
+                    "level": "2",
+                    "description": "+1 penetration"
+                },
+                {
+                    "level": "3",
+                    "description": "+1 penetration"
+                },
+                {
+                    "level": "4",
+                    "description": "+1 penetration"
+                },
+                {
+                    "level": "5",
+                    "description": "+1 penetration"
+                },
+                {
+                    "level": "6",
+                    "description": "+1 penetration"
+                }
+            ]
+        },
+        {
+            "name": "Shotgun",
+            "imageName": "Select 5",
+            "descriptions": [
+                {
+                    "level": "1",
+                    "description": "+1 bullet"
+                },
+                {
+                    "level": "2",
+                    "description": "+1 bullet"
+                },
+                {
+                    "level": "3",
+                    "description": "+1 bullet"
+                },
+                {
+                    "level": "4",
+                    "description": "+1 bullet"
+                },
+                {
+                    "level": "5",
+                    "description": "+1 bullet"
+                },
+                {
+                    "level": "6",
                     "description": "+1 bullet"
                 }
             ]

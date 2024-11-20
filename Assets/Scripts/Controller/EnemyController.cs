@@ -65,7 +65,7 @@ public class EnemyController : CreatureController, IPoolable
         _collider = GetComponent<BoxCollider2D>();
         _stat = gameObject.GetOrAddComponent<EnemyStat>();
 
-        string imageName = Enum.GetName(typeof(Define.EnemyType), _stat.Type);
+        string imageName = Enum.GetName(typeof(Define.Enemy), _stat.Type);
         _hitSprite = Managers.Resource.LoadSubSprite(imageName, "Hit");
         _deadSprite = Managers.Resource.LoadSubSprite(imageName, "Dead");
 
@@ -105,6 +105,7 @@ public class EnemyController : CreatureController, IPoolable
     {
         if (collision.gameObject.layer == (int)Define.Layer.Shovel && State != Define.State.Hit)
         {
+            Managers.Sound.Play(Define.Audio.Melee0);
             ShovelController controller = collision.GetComponent<ShovelController>();
             StartCoroutine(OnHit(controller.GetDamage()));
         }
@@ -114,6 +115,7 @@ public class EnemyController : CreatureController, IPoolable
     {
         if (collision.gameObject.layer == (int)Define.Layer.Bullet)
         {
+            Managers.Sound.Play(Define.Audio.Hit0);
             BulletController controller = collision.GetComponent<BulletController>();
             StartCoroutine(OnHit(controller.GetDamage()));
         }
@@ -129,7 +131,7 @@ public class EnemyController : CreatureController, IPoolable
         if (_stat.HP <= 0)
         {
             State = Define.State.Dead;
-            Managers.Game.Player.Stat.KillCount++;
+            Managers.Game.Player.StatPlayer.KillCount++;
             yield return new WaitForSeconds(_stat.DeadDuration);
 
             GameObject exp = Managers.Resource.Instantiate("Exp 0", Managers.Game.Props.transform);

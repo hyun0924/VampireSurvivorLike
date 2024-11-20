@@ -32,6 +32,7 @@ public class PlayerStat : BaseStat
             {
                 _exp -= _totalExp;
                 Level++;
+                Managers.Sound.Play(Define.Audio.LevelUp);
                 Managers.UI.ShowPopupUI<UI_Upgrade>();
                 Time.timeScale = 0;
             }
@@ -47,6 +48,9 @@ public class PlayerStat : BaseStat
         {
             _killCount = value;
             (Managers.UI.SceneUI as UI_Game).SetText(UI_Game.Texts.KillText, _killCount.ToString());
+
+            if (Managers.Game.IsLocked[1] && _killCount > 10) // 캐릭터 해금 조건
+                Managers.Game.IsLocked[1] = false;
         }
     }
 

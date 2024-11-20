@@ -15,7 +15,7 @@ public class Define
         Shovel,
     }
 
-    public enum PlayerType
+    public enum Player
     {
         Farmer_0,
         Farmer_1,
@@ -24,7 +24,7 @@ public class Define
         Unknown
     }
 
-    public enum EnemyType
+    public enum Enemy
     {
         Enemy_0,
         Enemy_1,
@@ -39,11 +39,6 @@ public class Define
         Run,
         Hit,
         Dead,
-    }
-
-    public enum DataName
-    {
-        ExpStats,
     }
 
     public enum UIEvent
@@ -73,16 +68,49 @@ public class Define
         MaxCount
     }
 
-    public enum GunType
+    public enum Shovel
     {
-        Shotgun,
+        Shovel,
+        Pitchfork,
+        Sickle
+    }
+
+    public enum Gun
+    {
         Riple,
         Sniper,
+        Shotgun,
     }
 
     public enum Scene
     {
         Login,
         Game,
+    }
+
+    public enum PlayerSprite
+    {
+        Dead_0, Dead_1,
+        Run_0, Run_1, Run_2, Run_3, Run_4, Run_5,
+        Stand_0, Stand_1, Stand_2, Stand_3
+    }
+
+    public enum AudioSource
+    {
+        BGM,
+        SFX,
+        MaxCount
+    }
+
+    public enum Audio
+    {
+        BGM,
+        Dead,
+        Hit0, Hit1,
+        LevelUp,
+        Win, Lose,
+        Melee0, Melee1,
+        Range,
+        Select
     }
 }
